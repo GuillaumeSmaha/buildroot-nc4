@@ -10,7 +10,9 @@ STRACE_SITE = https://github.com/strace/strace/releases/download/v$(STRACE_VERSI
 STRACE_LICENSE = LGPL-2.1+
 STRACE_LICENSE_FILES = COPYING LGPL-2.1-or-later
 STRACE_CPE_ID_VENDOR = strace_project
-STRACE_CONF_OPTS = --enable-mpers=no
+STRACE_CONF_OPTS = --enable-mpers=no --enable-arm-oabi
+# We're patching configure.ac
+STRACE_AUTORECONF = YES
 
 ifeq ($(BR2_PACKAGE_LIBUNWIND),y)
 STRACE_DEPENDENCIES += libunwind

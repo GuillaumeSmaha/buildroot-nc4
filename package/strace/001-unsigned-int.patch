@@ -1,0 +1,33 @@
+diff --color -rbu a/configure.ac b/configure.ac
+--- a/configure.ac	2022-09-04 20:27:11.676485084 +0200
++++ b/configure.ac	2022-09-04 20:52:21.056759531 +0200
+@@ -36,6 +36,8 @@
+ DEB_CHANGELOGTIME="$(LC_TIME=C date -u -R)"
+ AC_SUBST(DEB_CHANGELOGTIME)
+ 
++AC_SUBST([xlart_gen],[$( ./src/xlat/gen.sh )])
++
+ AC_PROG_CC
+ AC_PROG_CC_STDC
+ AC_PROG_CPP
+@@ -783,6 +785,8 @@
+ AX_VALGRIND_DFLT([sgcheck], [off])
+ AX_VALGRIND_CHECK
+ 
++AC_SUBST([var],[$( ./src/xlat/gen.sh )])
++
+ AC_CONFIG_FILES([Makefile
+ 		 bundled/Makefile
+ 		 debian/changelog
+diff --color -rbu a/src/xlat/gen.sh b/src/xlat/gen.sh
+--- a/src/xlat/gen.sh	2022-09-04 20:27:11.836486778 +0200
++++ b/src/xlat/gen.sh	2022-09-04 20:55:46.170987882 +0200
+@@ -61,7 +61,7 @@
+ 				"#if defined($val) || (defined(HAVE_DECL_$val) && HAVE_DECL_$val)"
+ 		printf '%s\n' \
+ 			"DIAG_PUSH_IGNORE_TAUTOLOGICAL_COMPARE" \
+-			"static_assert(($val) == ($def), \"$val != $def\");" \
++			"static_assert((unsigned int) ($val) == (unsigned int) ($def), \"$val != $def\");" \
+ 			"DIAG_POP_IGNORE_TAUTOLOGICAL_COMPARE"
+ 		[ -n "$unconditional" ] ||
+ 			printf '%s\n' \
